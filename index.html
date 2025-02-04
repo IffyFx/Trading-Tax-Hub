@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="styles.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UK Tax Trading Hub</title>
@@ -12,42 +14,23 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: url('https://thumbs.dreamstime.com/b/abstract-blurry-big-data-forex-candlestick-chart-dark-background-representing-financial-investment-trade-cryptocurrency-312255079.jpg') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
+            background-color: #007BFF; /* Solid blue background */
             color: white;
             height: 100vh;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Align everything at the top */
+            justify-content: center;
             text-align: center;
         }
 
-        /* Overlay on background */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-            z-index: -1;
-        }
-
-        /* GIF Container (centered at the top) */
+        /* GIF Container */
         .gif-container {
-            margin-top: 20px; /* Space between top and GIF */
-            margin-bottom: 30px; /* Space below the GIF */
-            display: flex;
-            justify-content: center; /* Center the GIF horizontally */
-            width: 100%;
+            margin-bottom: 20px;
         }
 
         .gif-container img {
-            max-width: 300px; /* Adjust the size of the GIF */
+            max-width: 300px; /* Adjust size */
             border-radius: 8px;
         }
 
@@ -73,27 +56,27 @@
             width: 220px;
             padding: 12px;
             text-align: center;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #ffffff; /* White buttons */
+            color: #007BFF; /* Blue text */
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
-            text-decoration: none; /* Remove underline */
-            transition: background 0.3s ease;
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .button:hover {
-            background-color: #45a049;
+            background-color: #0056b3; /* Darker blue on hover */
+            color: white;
         }
-
     </style>
 </head>
 
 <body>
     <!-- GIF Container -->
     <div class="gif-container">
-        <!-- Add the direct GIF URL here -->
         <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjI2ZnZ2b252NDF6Mjk2dGFnYnk1NGV1b282ZnZrc2doNnA0dXppZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ERIB4ws3cw17uWN4mF/giphy.gif" alt="Funny Forex GIF">
     </div>
 
