@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax Calculator</title>
+    <title>UK Tax Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Google Font -->
 
     <style>
@@ -29,6 +29,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px; /* Added margin to ensure space at the bottom */
         }
 
         h1 {
@@ -51,6 +52,7 @@
             border: 1px solid #ddd;
             background-color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
+            box-sizing: border-box;
         }
 
         button {
@@ -63,6 +65,7 @@
             font-size: 16px;
             cursor: pointer;
             margin-top: 15px;
+            box-sizing: border-box;
         }
 
         button:hover {
@@ -74,27 +77,29 @@
             margin-top: 20px;
             font-size: 16px;
             color: #ddd;
+            margin-bottom: 20px; /* Added margin to separate from buttons */
         }
 
         .button-container {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 10px;
             margin-top: 20px;
-            align-items: center;
         }
 
         .button {
-            width: 200px;
-            padding: 10px;
+            width: 220px;
+            padding: 12px;
             background-color: #ffffff;
             color: #007BFF;
             border: none;
             border-radius: 6px;
-            font-size: 16px;
-            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
             text-align: center;
-            transition: background 0.3s ease;
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .button:hover {
@@ -120,10 +125,9 @@
 
         <div class="result" id="result"></div>
 
-        <!-- Buttons: "Back to Home" and "Personal Accountant Tax Calculator" moved -->
         <div class="button-container">
             <a href="index.html" class="button">Back to Home</a>
-            <a href="tax-info.html" class="button">Tax Information</a> <!-- Tax Information Link Added Here -->
+            <a href="tax-info.html" class="button">Tax Information</a>
             <a href="accountant-tax.html" class="button">Personal Accountant Tax Calculator</a>
         </div>
     </div>
