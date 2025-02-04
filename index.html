@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="styles.css">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UK Tax Trading Hub</title>
@@ -19,12 +17,19 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             text-align: center;
         }
 
-        /* GIF Container */
+        .header-text {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
         .gif-container {
             margin-bottom: 20px;
         }
@@ -34,23 +39,12 @@
             border-radius: 8px;
         }
 
-        /* Centered, bold header for 'UK Tax Trading Hub' */
-        .header-text {
-            font-family: 'Roboto', sans-serif;
-            font-weight: bold;
-            font-size: 36px;
-            margin-bottom: 30px;
-            color: #fff;
-        }
-
-        /* Button container */
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
-        /* Button styling */
         .button {
             display: inline-block;
             width: 220px;
@@ -68,7 +62,7 @@
         }
 
         .button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
             color: white;
         }
     </style>
@@ -86,6 +80,9 @@
     <div class="button-container">
         <a href="tax-info.html" class="button">Learn About Tax</a>
         <a href="tax-calculator.html" class="button">Go to Tax Calculator</a>
+
+        <!-- Personal Accountant Tax Calculator Link under "Go to Tax Calculator" -->
+        <a href="accountant-tax.html" class="button">Personal Accountant Tax Calculator</a>
     </div>
 </body>
 
