@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Accountant Tax Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #007BFF; /* Same blue background as other pages */
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 90%;
+            background-color: rgba(0, 0, 0, 0.8); /* Dark box for better readability */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #ddd;
+        }
+
+        /* Centering the button container */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Button styling - matches other pages */
+        .button {
+            width: 220px;
+            padding: 12px;
+            background-color: #ffffff; /* White buttons */
+            color: #007BFF; /* Blue text */
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Personal Accountant Tax Calculator</h1>
+
+        <form id="tax-form">
+            <label for="businessIncome">Business Income (£):</label>
+            <input type="text" id="businessIncome" oninput="formatNumber(this)" required>
+
+            <label for="expenses">Business Expenses (£):</label>
+            <input type="text" id="expenses" oninput="formatNumber(this)">
+
+            <label for="vatRegistered">VAT Registered?</label>
+            <select id="vatRegistered">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            <label for="corporationTax">Is this a Limited Company?</label>
+            <select id="corporationTax">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            <button type="button" onclick="calculateAccountantTax()">Calculate Tax</button>
+        </form>
+
+        <div class="result" id="result"></div>
+
+        <!-- Buttons - Matching the first three pages -->
+        <div class="button-container">
+            <a href="tax-info.html" class="button">Back to Tax Information</a>
+            <a href="index.html" class="button">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        function formatNumber(input) {
+            let value = input.value.replace(/[^0-9]/g, '');
+            if (value) {
+                value = Number(value).toLocaleString();
+            }
+            input.value = value;
+        }
+
+        function calculateAccountantTax() {
+            const incomeValue = document.getElementById("businessIncome").value.replace(/[^0-9.-]+/g, "");
+            const expensesValue = document.getElementById("expenses").value.replace(/[^0-9.-]+/g, "");
+
+            const income = incomeValue ? parseFloat(incomeValue) : 0;
+            const expenses = expensesValue ? parseFloat(expensesValue) : 0;
+            const taxableIncome = Math.max(0, income - expenses);
+
+            let tax = 0;
+            if (taxableIncome > 12570) {
+                if (taxableIncome <= 50270) {
+                    tax = (taxableIncome - 12570) * 0.2;
+                } else if (taxableIncome <= 150000) {
+                    tax = (50270 - 12570) * 0.2 + (taxableIncome - 50270) * 0.4;
+                } else {
+                    tax = (50270 - 12570) * 0.2 + (150000 - 50270) * 0.4 + (taxableIncome - 150000) * 0.45;
+                }
+            }
+
+            let ni = 0;
+            if (taxableIncome > 12570) {
+                if (taxableIncome <= 50270) {
+                    ni = (taxableIncome - 12570) * 0.12;
+                } else {
+                    ni = (50270 - 12570) * 0.12 + (taxableIncome - 50270) * 0.02;
+                }
+            }
+
+            let vat = 0;
+            if (document.getElementById("vatRegistered").value === "yes" && income > 85000) {
+                vat = income * 0.20;
+            }
+
+            let corpTax = 0;
+            if (document.getElementById("corporationTax").value === "yes") {
+                corpTax = taxableIncome * 0.25;
+            }
+
+            const totalTax = tax + ni + vat + corpTax;
+
+            document.getElementById("result").innerHTML = `
+                <p>Total Taxable Income: £${taxableIncome.toLocaleString()}</p>
+                <p>Total Income Tax: £${tax.toLocaleString()}</p>
+                <p>Total National Insurance: £${ni.toLocaleString()}</p>
+                <p>VAT (If applicable): £${vat.toLocaleString()}</p>
+                <p>Corporation Tax (If applicable): £${corpTax.toLocaleString()}</p>
+                <p><strong>Total Tax (Income Tax + NI + VAT + Corporation Tax): £${totalTax.toLocaleString()}</strong></p>
+            `;
+        }
+    </script>
+</body>
+
+</html>
