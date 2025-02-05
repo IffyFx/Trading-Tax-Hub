@@ -61,19 +61,34 @@
             margin-top: 20px;
             color: #ddd;
         }
+
+        .link {
+            margin-top: 20px;
+            color: #fff;
+            font-size: 14px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>UK Trading Tax Calculator (Self-Employed)</h1>
-        <form id="trading-form">
+        <form id="tax-form">
+            <label for="annualSalary">Annual Salary (£):</label>
+            <input type="text" id="annualSalary" oninput="formatNumber(this)" required>
+
+            <label for="otherIncome">Other Income (£):</label>
+            <input type="text" id="otherIncome" oninput="formatNumber(this)" required>
+
             <label for="tradingProfit">Trading Profit (£):</label>
             <input type="text" id="tradingProfit" oninput="formatNumber(this)" required>
 
             <button type="button" onclick="calculateTradingTax()">Calculate Tax</button>
         </form>
         <div class="result" id="result"></div>
+        <div class="link">
+            <a href="https://www.gov.uk/income-tax-rates" target="_blank" style="color: white;">Learn more about UK Income Tax rates</a>
+        </div>
     </div>
 
     <script>
@@ -86,12 +101,16 @@
         }
 
         function calculateTradingTax() {
+            const annualSalary = parseFloat(document.getElementById("annualSalary").value.replace(/[^0-9.-]+/g, "")) || 0;
+            const otherIncome = parseFloat(document.getElementById("otherIncome").value.replace(/[^0-9.-]+/g, "")) || 0;
             const tradingProfit = parseFloat(document.getElementById("tradingProfit").value.replace(/[^0-9.-]+/g, "")) || 0;
+
             const personalAllowance = 12570; // Tax-free income
-            let taxableIncome = Math.max(0, tradingProfit - personalAllowance);
+            let totalIncome = annualSalary + otherIncome + tradingProfit;
+            let taxableIncome = Math.max(0, totalIncome - personalAllowance);
             let tax = 0;
 
-            // Calculate Income Tax based on brackets
+            // Calculate Income Tax based on the tax bands
             if (taxableIncome > 0) {
                 if (taxableIncome <= 37700) {
                     tax = taxableIncome * 0.2;
@@ -102,32 +121,33 @@
                 }
             }
 
-            const ni = calculateNI(tradingProfit); // National Insurance
+            const ni = calculateNI(totalIncome); // National Insurance
             const totalTax = tax + ni;
 
             // Display Results
             document.getElementById("result").innerHTML = `
-                <p>Total Taxable Income: £${taxableIncome.toLocaleString()}</p>
+                <p>Total Income: £${totalIncome.toLocaleString()}</p>
+                <p>Total Taxable Income (after Personal Allowance): £${taxableIncome.toLocaleString()}</p>
                 <p>Total Income Tax: £${tax.toLocaleString()}</p>
                 <p>Total National Insurance: £${ni.toLocaleString()}</p>
                 <p><strong>Total Tax (Income Tax + NI): £${totalTax.toLocaleString()}</strong></p>
             `;
         }
 
-        function calculateNI(tradingProfit) {
+        function calculateNI(totalIncome) {
             const class4Threshold = 12570; // Threshold for Class 4 NI
             const class4UpperLimit = 50270; // Upper limit for Class 4 NI
             const class4RateLower = 0.09; // Rate for income between thresholds
             const class4RateHigher = 0.02; // Rate for income over upper limit
-            const class2NI = tradingProfit > class4Threshold ? 3.45 * 52 : 0; // Class 2 NI
+            const class2NI = totalIncome > class4Threshold ? 3.45 * 52 : 0; // Class 2 NI
 
             let ni = 0;
             // Class 4 National Insurance
-            if (tradingProfit > class4Threshold) {
-                if (tradingProfit <= class4UpperLimit) {
-                    ni = (tradingProfit - class4Threshold) * class4RateLower;
+            if (totalIncome > class4Threshold) {
+                if (totalIncome <= class4UpperLimit) {
+                    ni = (totalIncome - class4Threshold) * class4RateLower;
                 } else {
-                    ni = (class4UpperLimit - class4Threshold) * class4RateLower + (tradingProfit - class4UpperLimit) * class4RateHigher;
+                    ni = (class4UpperLimit - class4Threshold) * class4RateLower + (totalIncome - class4UpperLimit) * class4RateHigher;
                 }
             }
 
