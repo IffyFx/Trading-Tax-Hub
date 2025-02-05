@@ -117,6 +117,9 @@
             <label for="salary">Annual Salary (£):</label>
             <input type="text" id="salary" oninput="formatNumber(this)" required>
 
+            <label for="selfEmployedIncome">Self-Employed Income (£):</label>
+            <input type="text" id="selfEmployedIncome" oninput="formatNumber(this)">
+
             <label for="otherIncome">Other Income (£):</label>
             <input type="text" id="otherIncome" oninput="formatNumber(this)">
 
@@ -143,13 +146,15 @@
 
         function calculateTax() {
             const salaryValue = document.getElementById("salary").value.replace(/[^0-9.-]+/g, "");
+            const selfEmployedIncomeValue = document.getElementById("selfEmployedIncome").value.replace(/[^0-9.-]+/g, "");
             const otherIncomeValue = document.getElementById("otherIncome").value.replace(/[^0-9.-]+/g, "");
 
             const salary = salaryValue ? parseFloat(salaryValue) : 0;
+            const selfEmployedIncome = selfEmployedIncomeValue ? parseFloat(selfEmployedIncomeValue) : 0;
             const otherIncome = otherIncomeValue ? parseFloat(otherIncomeValue) : 0;
 
             const personalAllowance = 12570;
-            let taxableIncome = Math.max(0, salary + otherIncome - personalAllowance);
+            let taxableIncome = Math.max(0, salary + selfEmployedIncome + otherIncome - personalAllowance);
             let tax = 0;
 
             if (taxableIncome > 0) {
@@ -162,15 +167,14 @@
                 }
             }
 
-            const ni = calculateNI(salary);
+            const ni = calculateNI(salary + selfEmployedIncome); // Adding self-employed income to NI calculation
             const totalTax = tax + ni;
 
             document.getElementById("result").innerHTML = 
-                <p>Total Taxable Income: £${taxableIncome.toLocaleString()}</p>
+                `<p>Total Taxable Income: £${taxableIncome.toLocaleString()}</p>
                 <p>Total Income Tax: £${tax.toLocaleString()}</p>
                 <p>Total National Insurance: £${ni.toLocaleString()}</p>
-                <p><strong>Total Tax (Income Tax + NI): £${totalTax.toLocaleString()}</strong></p>
-            ;
+                <p><strong>Total Tax (Income Tax + NI): £${totalTax.toLocaleString()}</strong></p>`;
         }
 
         function calculateNI(salary) {
@@ -193,7 +197,8 @@
 
 </body>
 
-</html
+</html>
+
 
 
 
