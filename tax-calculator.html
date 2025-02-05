@@ -4,34 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UK Tax Calculator (Self-Employed)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <title>UK Tax Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Google Font -->
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #007BFF;
+            margin: 0;
+            padding: 0;
+            background-color: #007BFF; /* Blue background */
             color: white;
-            text-align: center;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
+            text-align: center;
         }
 
         .container {
             max-width: 500px;
-            background-color: rgba(0, 0, 0, 0.8);
+            width: 90%;
+            background-color: rgba(0, 0, 0, 0.8); /* Dark box for better readability */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px; /* Added margin to ensure space at the bottom */
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         label {
+            font-weight: bold;
             display: block;
-            text-align: left;
             margin-top: 10px;
+            text-align: left;
         }
 
         input {
@@ -40,6 +50,7 @@
             margin-top: 5px;
             border-radius: 6px;
             border: 1px solid #ddd;
+            background-color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
             box-sizing: border-box;
         }
@@ -54,32 +65,71 @@
             font-size: 16px;
             cursor: pointer;
             margin-top: 15px;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
 
         .result {
             text-align: left;
             margin-top: 20px;
+            font-size: 16px;
             color: #ddd;
+            margin-bottom: 20px; /* Added margin to separate from buttons */
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button {
+            width: 220px;
+            padding: 12px;
+            background-color: #ffffff;
+            color: #007BFF;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            color: white;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>UK Tax Calculator (Self-Employed)</h1>
+        <h1>UK Tax Calculator</h1>
+
         <form id="tax-form">
             <label for="salary">Annual Salary (£):</label>
             <input type="text" id="salary" oninput="formatNumber(this)" required>
-
-            <label for="selfEmployedIncome">Self-Employed Income (£):</label>
-            <input type="text" id="selfEmployedIncome" oninput="formatNumber(this)">
 
             <label for="otherIncome">Other Income (£):</label>
             <input type="text" id="otherIncome" oninput="formatNumber(this)">
 
             <button type="button" onclick="calculateTax()">Calculate Tax</button>
         </form>
+
         <div class="result" id="result"></div>
+
+        <div class="button-container">
+            <a href="index.html" class="button">Back to Home</a>
+            <a href="tax-info.html" class="button">Tax Information</a>
+            <a href="accountant-tax.html" class="button">Personal Accountant Tax Calculator</a>
+        </div>
     </div>
 
     <script>
@@ -92,58 +142,58 @@
         }
 
         function calculateTax() {
-            const salary = parseFloat(document.getElementById("salary").value.replace(/[^0-9.-]+/g, "")) || 0;
-            const selfEmployedIncome = parseFloat(document.getElementById("selfEmployedIncome").value.replace(/[^0-9.-]+/g, "")) || 0;
-            const otherIncome = parseFloat(document.getElementById("otherIncome").value.replace(/[^0-9.-]+/g, "")) || 0;
-            
+            const salaryValue = document.getElementById("salary").value.replace(/[^0-9.-]+/g, "");
+            const otherIncomeValue = document.getElementById("otherIncome").value.replace(/[^0-9.-]+/g, "");
+
+            const salary = salaryValue ? parseFloat(salaryValue) : 0;
+            const otherIncome = otherIncomeValue ? parseFloat(otherIncomeValue) : 0;
+
             const personalAllowance = 12570;
-            let totalIncome = salary + selfEmployedIncome + otherIncome;
-            let taxableIncome = Math.max(0, totalIncome - personalAllowance);
+            let taxableIncome = Math.max(0, salary + otherIncome - personalAllowance);
             let tax = 0;
 
             if (taxableIncome > 0) {
-                if (taxableIncome <= 37700) {
+                if (taxableIncome <= 50270) {
                     tax = taxableIncome * 0.2;
                 } else if (taxableIncome <= 150000) {
-                    tax = (37700 * 0.2) + ((taxableIncome - 37700) * 0.4);
+                    tax = (50270 * 0.2) + ((taxableIncome - 50270) * 0.4);
                 } else {
-                    tax = (37700 * 0.2) + ((150000 - 37700) * 0.4) + ((taxableIncome - 150000) * 0.45);
+                    tax = (50270 * 0.2) + ((150000 - 50270) * 0.4) + ((taxableIncome - 150000) * 0.45);
                 }
             }
-            
-            const ni = calculateNI(selfEmployedIncome);
+
+            const ni = calculateNI(salary);
             const totalTax = tax + ni;
 
-            document.getElementById("result").innerHTML = `
+            document.getElementById("result").innerHTML = 
                 <p>Total Taxable Income: £${taxableIncome.toLocaleString()}</p>
                 <p>Total Income Tax: £${tax.toLocaleString()}</p>
                 <p>Total National Insurance: £${ni.toLocaleString()}</p>
                 <p><strong>Total Tax (Income Tax + NI): £${totalTax.toLocaleString()}</strong></p>
-            `;
+            ;
         }
 
-        function calculateNI(selfEmployedIncome) {
-            const class4Threshold = 12570;
-            const class4UpperLimit = 50270;
-            const class4RateLower = 0.09;
-            const class4RateHigher = 0.02;
-            const class2NI = selfEmployedIncome > class4Threshold ? 3.45 * 52 : 0;
-            
+        function calculateNI(salary) {
+            const niLowerThreshold = 12570; // NI threshold
+            const niUpperThreshold = 50270;
+            const niRateLower = 0.12; // 12% for income between £12,570 and £50,270
+            const niRateHigher = 0.02; // 2% for income above £50,270
+
             let ni = 0;
-            if (selfEmployedIncome > class4Threshold) {
-                if (selfEmployedIncome <= class4UpperLimit) {
-                    ni = (selfEmployedIncome - class4Threshold) * class4RateLower;
+            if (salary > niLowerThreshold) {
+                if (salary <= niUpperThreshold) {
+                    ni = (salary - niLowerThreshold) * niRateLower;
                 } else {
-                    ni = (class4UpperLimit - class4Threshold) * class4RateLower + (selfEmployedIncome - class4UpperLimit) * class4RateHigher;
+                    ni = (niUpperThreshold - niLowerThreshold) * niRateLower + (salary - niUpperThreshold) * niRateHigher;
                 }
             }
-            
-            return ni + class2NI;
+            return ni;
         }
     </script>
+
 </body>
 
-</html>
+</html
 
 
 
