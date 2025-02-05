@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UK Trading Tax Calculator (Self-Employed)</title>
+    <title>UK Tax Calculator (Self-Employed)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -61,34 +61,25 @@
             margin-top: 20px;
             color: #ddd;
         }
-
-        .link {
-            margin-top: 20px;
-            color: #fff;
-            font-size: 14px;
-        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>UK Trading Tax Calculator (Self-Employed)</h1>
+        <h1>UK Tax Calculator (Self-Employed)</h1>
         <form id="tax-form">
-            <label for="annualSalary">Annual Salary (£):</label>
-            <input type="text" id="annualSalary" oninput="formatNumber(this)" required>
+            <label for="salary">Annual Salary (£):</label>
+            <input type="text" id="salary" oninput="formatNumber(this)" required>
+
+            <label for="selfEmployedIncome">Self-Employed Income (£):</label>
+            <input type="text" id="selfEmployedIncome" oninput="formatNumber(this)">
 
             <label for="otherIncome">Other Income (£):</label>
-            <input type="text" id="otherIncome" oninput="formatNumber(this)" required>
+            <input type="text" id="otherIncome" oninput="formatNumber(this)">
 
-            <label for="tradingProfit">Trading Profit (£):</label>
-            <input type="text" id="tradingProfit" oninput="formatNumber(this)" required>
-
-            <button type="button" onclick="calculateTradingTax()">Calculate Tax</button>
+            <button type="button" onclick="calculateTax()">Calculate Tax</button>
         </form>
         <div class="result" id="result"></div>
-        <div class="link">
-            <a href="https://www.gov.uk/income-tax-rates" target="_blank" style="color: white;">Learn more about UK Income Tax rates</a>
-        </div>
     </div>
 
     <script>
@@ -100,17 +91,16 @@
             input.value = value;
         }
 
-        function calculateTradingTax() {
-            const annualSalary = parseFloat(document.getElementById("annualSalary").value.replace(/[^0-9.-]+/g, "")) || 0;
+        function calculateTax() {
+            const salary = parseFloat(document.getElementById("salary").value.replace(/[^0-9.-]+/g, "")) || 0;
+            const selfEmployedIncome = parseFloat(document.getElementById("selfEmployedIncome").value.replace(/[^0-9.-]+/g, "")) || 0;
             const otherIncome = parseFloat(document.getElementById("otherIncome").value.replace(/[^0-9.-]+/g, "")) || 0;
-            const tradingProfit = parseFloat(document.getElementById("tradingProfit").value.replace(/[^0-9.-]+/g, "")) || 0;
-
-            const personalAllowance = 12570; // Tax-free income
-            let totalIncome = annualSalary + otherIncome + tradingProfit;
+            
+            const personalAllowance = 12570;
+            let totalIncome = salary + selfEmployedIncome + otherIncome;
             let taxableIncome = Math.max(0, totalIncome - personalAllowance);
             let tax = 0;
 
-            // Calculate Income Tax based on the tax bands
             if (taxableIncome > 0) {
                 if (taxableIncome <= 37700) {
                     tax = taxableIncome * 0.2;
@@ -120,38 +110,35 @@
                     tax = (37700 * 0.2) + ((150000 - 37700) * 0.4) + ((taxableIncome - 150000) * 0.45);
                 }
             }
-
-            const ni = calculateNI(totalIncome); // National Insurance
+            
+            const ni = calculateNI(selfEmployedIncome);
             const totalTax = tax + ni;
 
-            // Display Results
             document.getElementById("result").innerHTML = `
-                <p>Total Income: £${totalIncome.toLocaleString()}</p>
-                <p>Total Taxable Income (after Personal Allowance): £${taxableIncome.toLocaleString()}</p>
+                <p>Total Taxable Income: £${taxableIncome.toLocaleString()}</p>
                 <p>Total Income Tax: £${tax.toLocaleString()}</p>
                 <p>Total National Insurance: £${ni.toLocaleString()}</p>
                 <p><strong>Total Tax (Income Tax + NI): £${totalTax.toLocaleString()}</strong></p>
             `;
         }
 
-        function calculateNI(totalIncome) {
-            const class4Threshold = 12570; // Threshold for Class 4 NI
-            const class4UpperLimit = 50270; // Upper limit for Class 4 NI
-            const class4RateLower = 0.09; // Rate for income between thresholds
-            const class4RateHigher = 0.02; // Rate for income over upper limit
-            const class2NI = totalIncome > class4Threshold ? 3.45 * 52 : 0; // Class 2 NI
-
+        function calculateNI(selfEmployedIncome) {
+            const class4Threshold = 12570;
+            const class4UpperLimit = 50270;
+            const class4RateLower = 0.09;
+            const class4RateHigher = 0.02;
+            const class2NI = selfEmployedIncome > class4Threshold ? 3.45 * 52 : 0;
+            
             let ni = 0;
-            // Class 4 National Insurance
-            if (totalIncome > class4Threshold) {
-                if (totalIncome <= class4UpperLimit) {
-                    ni = (totalIncome - class4Threshold) * class4RateLower;
+            if (selfEmployedIncome > class4Threshold) {
+                if (selfEmployedIncome <= class4UpperLimit) {
+                    ni = (selfEmployedIncome - class4Threshold) * class4RateLower;
                 } else {
-                    ni = (class4UpperLimit - class4Threshold) * class4RateLower + (totalIncome - class4UpperLimit) * class4RateHigher;
+                    ni = (class4UpperLimit - class4Threshold) * class4RateLower + (selfEmployedIncome - class4UpperLimit) * class4RateHigher;
                 }
             }
-
-            return ni + class2NI; // Add Class 2 NI if applicable
+            
+            return ni + class2NI;
         }
     </script>
 </body>
