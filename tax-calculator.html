@@ -68,14 +68,8 @@
     <div class="container">
         <h1>UK Tax Calculator (Self-Employed)</h1>
         <form id="tax-form">
-            <label for="salary">Annual Salary (£):</label>
-            <input type="text" id="salary" oninput="formatNumber(this)" required>
-
             <label for="selfEmployedIncome">Self-Employed Income (£):</label>
-            <input type="text" id="selfEmployedIncome" oninput="formatNumber(this)">
-
-            <label for="otherIncome">Other Income (£):</label>
-            <input type="text" id="otherIncome" oninput="formatNumber(this)">
+            <input type="text" id="selfEmployedIncome" oninput="formatNumber(this)" required>
 
             <button type="button" onclick="calculateTax()">Calculate Tax</button>
         </form>
@@ -92,13 +86,9 @@
         }
 
         function calculateTax() {
-            const salary = parseFloat(document.getElementById("salary").value.replace(/[^0-9.-]+/g, "")) || 0;
             const selfEmployedIncome = parseFloat(document.getElementById("selfEmployedIncome").value.replace(/[^0-9.-]+/g, "")) || 0;
-            const otherIncome = parseFloat(document.getElementById("otherIncome").value.replace(/[^0-9.-]+/g, "")) || 0;
-            
             const personalAllowance = 12570;
-            let totalIncome = salary + selfEmployedIncome + otherIncome;
-            let taxableIncome = Math.max(0, totalIncome - personalAllowance);
+            let taxableIncome = Math.max(0, selfEmployedIncome - personalAllowance);
             let tax = 0;
 
             if (taxableIncome > 0) {
