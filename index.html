@@ -22,22 +22,6 @@
             text-align: center;
         }
 
-        .header-text {
-            font-family: 'Roboto', sans-serif;
-            font-weight: bold;
-            font-size: 48px;
-            background-color: #000; /* Black box */
-            color: #fff; /* White text */
-            padding: 15px 25px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 30px;
-        }
-
-        .header-text span {
-            color: #ff9900; /* Pornhub orange */
-        }
-
         .gif-container {
             margin-bottom: 20px;
         }
@@ -47,10 +31,25 @@
             border-radius: 8px;
         }
 
+        .header-text {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 48px;
+        }
+
+        .header-text .white-part {
+            color: #fff; /* white text */
+        }
+
+        .header-text .orange-part {
+            color: #ff9900; /* orange text */
+        }
+
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-top: 20px;
         }
 
         .button {
@@ -82,8 +81,10 @@
         <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjI2ZnZ2b252NDF6Mjk2dGFnYnk1NGV1b282ZnZrc2doNnA0dXppZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ERIB4ws3cw17uWN4mF/giphy.gif" alt="Funny Forex GIF">
     </div>
 
-    <!-- Header with Pornhub-style color -->
-    <div class="header-text">UK Tax <span>Trading Hub</span></div>
+    <!-- Header with Pornhub-style colors -->
+    <div class="header-text">
+        <span class="white-part">UK Tax </span><span class="orange-part">Trading Hub</span>
+    </div>
 
     <!-- Buttons for Navigation -->
     <div class="button-container">
@@ -94,6 +95,8 @@
 </body>
 
 </html>
+
+
 
 
 
