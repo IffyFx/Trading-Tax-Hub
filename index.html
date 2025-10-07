@@ -5,24 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UK Tax Trading Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #007BFF; /* Blue background */
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
         .header-text {
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 48px;
-    background-color: #000; /* black background */
-    color: #fff; /* white text */
-    padding: 15px 25px;
-    border-radius: 10px;
-    display: inline-block;
-}
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 48px;
+            background-color: #000; /* Black box */
+            color: #fff; /* White text */
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
 
-.header-text span {
-    color: #ff9900; /* Pornhub orange */
-}
-
+        .header-text span {
+            color: #ff9900; /* Pornhub orange */
         }
 
         .gif-container {
@@ -30,7 +43,7 @@
         }
 
         .gif-container img {
-            max-width: 300px; /* Adjust size */
+            max-width: 300px;
             border-radius: 8px;
         }
 
@@ -45,8 +58,8 @@
             width: 220px;
             padding: 12px;
             text-align: center;
-            background-color: #ffffff; /* White buttons */
-            color: #007BFF; /* Blue text */
+            background-color: #ffffff;
+            color: #007BFF;
             border: none;
             border-radius: 6px;
             font-size: 18px;
@@ -69,19 +82,20 @@
         <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjI2ZnZ2b252NDF6Mjk2dGFnYnk1NGV1b282ZnZrc2doNnA0dXppZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ERIB4ws3cw17uWN4mF/giphy.gif" alt="Funny Forex GIF">
     </div>
 
-    <div class="header-text">UK Tax Trading Hub</div>
+    <!-- Header with Pornhub-style color -->
+    <div class="header-text">UK Tax <span>Trading Hub</span></div>
 
     <!-- Buttons for Navigation -->
     <div class="button-container">
         <a href="tax-info.html" class="button">Learn About Tax</a>
         <a href="tax-calculator.html" class="button">Go to Tax Calculator</a>
-
-        <!-- Personal Accountant Tax Calculator Link under "Go to Tax Calculator" -->
         <a href="accountant-tax.html" class="button">Personal Accountant Tax Calculator</a>
     </div>
 </body>
 
 </html>
+
+
 
 
 
