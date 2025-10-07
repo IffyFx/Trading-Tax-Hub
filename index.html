@@ -31,18 +31,33 @@
             border-radius: 8px;
         }
 
+        /* Header with Pornhub-style boxes */
         .header-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px; /* small space between boxes */
+            margin-bottom: 30px;
+        }
+
+        .black-box {
+            background-color: #000; /* black background */
+            color: #fff; /* white text */
             font-family: 'Roboto', sans-serif;
             font-weight: bold;
             font-size: 48px;
+            padding: 10px 20px;
+            border-radius: 5px;
         }
 
-        .header-text .white-part {
-            color: #fff; /* black text */
-        }
-
-        .header-text .orange-part {
-            color: #ff9900; /* orange text */
+        .orange-box {
+            background-color: #ff9900; /* orange background */
+            color: #000; /* black text */
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 48px;
+            padding: 10px 20px;
+            border-radius: 5px;
         }
 
         .button-container {
@@ -83,7 +98,8 @@
 
     <!-- Header with Pornhub-style colors -->
     <div class="header-text">
-        <span class="white-part">UK Tax </span><span class="orange-part">Trading Hub</span>
+        <span class="black-box">UK Tax</span>
+        <span class="orange-box">Trading Hub</span>
     </div>
 
     <!-- Buttons for Navigation -->
@@ -95,6 +111,8 @@
 </body>
 
 </html>
+
+
 
 
 
